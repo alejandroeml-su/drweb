@@ -1,0 +1,181 @@
+/* Avante - estilos adicionales sobre Tailwind */
+
+:root {
+  --navy: #0A1F44;
+  --teal: #1A8B9D;
+  --gold: #C9A961;
+  --cream: #FAF7F2;
+  --green: #2D8659;
+  --yellow: #E0A82E;
+  --red: #C0392B;
+}
+
+/* Scroll suave en tabs con overflow */
+.tabs-scroll::-webkit-scrollbar { height: 4px; }
+.tabs-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 2px; }
+
+/* Botones genéricos */
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: background-color 0.15s, opacity 0.15s;
+  cursor: pointer;
+  border: none;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.input-base {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+.input-base:focus { box-shadow: 0 0 0 2px rgba(26,139,157,0.4); }
+
+/* Sidebar activo en móvil */
+#sidebar.open { display: block; }
+
+/* Transiciones suaves al cambiar módulo */
+#main-content { animation: fadein 0.2s ease-in; }
+@keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* ============================================================
+   Identidad de marca · Clínica de Obesidad y Metabólica by Avante
+   ============================================================ */
+
+.brand-sidebar {
+  background:
+    radial-gradient(ellipse at top right, rgba(201,169,97,0.15), transparent 55%),
+    linear-gradient(180deg, #0A1F44 0%, #0A1F44 55%, #0D2750 100%);
+  box-shadow: 4px 0 24px rgba(10,31,68,0.15);
+}
+
+.brand-glow {
+  position:absolute;
+  top:-40px; right:-40px;
+  width:140px; height:140px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(201,169,97,0.22) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.brand-mark {
+  width:44px; height:44px;
+  border-radius:50%;
+  background: linear-gradient(135deg, rgba(201,169,97,0.25), rgba(201,169,97,0.08));
+  border: 1.5px solid #C9A961;
+  color:#C9A961;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 0 18px rgba(201,169,97,0.25);
+  flex-shrink:0;
+}
+
+.brand-title {
+  font-family:'Cormorant Garamond', Georgia, serif;
+  color:#C9A961;
+  font-size:1.25rem;
+  font-weight:700;
+  letter-spacing:0.2px;
+}
+.brand-subtitle {
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:0.8rem;
+  color:rgba(255,255,255,0.75);
+  margin-top:2px;
+  font-style:italic;
+}
+.brand-avante {
+  color:#C9A961;
+  font-weight:600;
+  font-style:normal;
+  letter-spacing:1px;
+}
+
+/* Encabezado de módulos */
+.module-header {
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(201,169,97,0.18), transparent 50%),
+    linear-gradient(135deg, #0A1F44 0%, #123256 55%, #1A8B9D 140%);
+  color:white;
+  padding:1.75rem 1.5rem;
+}
+.module-header .brand-mark-lg {
+  width:52px; height:52px;
+  border-radius:50%;
+  background: linear-gradient(135deg, rgba(201,169,97,0.3), rgba(201,169,97,0.08));
+  border: 1.5px solid #C9A961;
+  color:#C9A961;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 0 28px rgba(201,169,97,0.35);
+  flex-shrink:0;
+}
+.module-header h1 {
+  font-family:'Cormorant Garamond', Georgia, serif;
+  color:#C9A961;
+  font-size:1.75rem;
+  font-weight:700;
+  line-height:1.05;
+  margin:0;
+}
+.module-header .byline {
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:0.95rem;
+  color:rgba(255,255,255,0.85);
+  font-style:italic;
+}
+.module-header .tagline {
+  font-family:'Cormorant Garamond', Georgia, serif;
+  font-size:0.8rem;
+  font-style:italic;
+  color:rgba(255,255,255,0.75);
+  margin-top:6px;
+}
+.module-header .modulo-label {
+  font-size:0.7rem;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.65);
+  margin-top:4px;
+}
+
+/* Botones de modo */
+.modo-btn {
+  padding:0.45rem 0.8rem;
+  border-radius:999px;
+  font-size:0.78rem;
+  font-weight:500;
+  display:flex;
+  align-items:center;
+  gap:0.35rem;
+  border:1px solid rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.08);
+  color:white;
+  cursor:pointer;
+  transition: all 0.15s ease;
+  backdrop-filter: blur(6px);
+}
+.modo-btn:hover { background:rgba(255,255,255,0.15); }
+.modo-btn.active {
+  background: linear-gradient(135deg, #C9A961, #b8933d);
+  color:#0A1F44;
+  border-color:#C9A961;
+  box-shadow: 0 0 18px rgba(201,169,97,0.4);
+}
+
+/* Card de módulo con acabado premium */
+.module-card {
+  background:white;
+  border-radius:14px;
+  box-shadow: 0 10px 40px rgba(10,31,68,0.08), 0 2px 8px rgba(10,31,68,0.04);
+  overflow:hidden;
+}
+
+/* Tipografía más cómoda en impresión */
+@media print {
+  #sidebar, #btn-menu { display: none !important; }
+  #main-content { width: 100% !important; }
+}
