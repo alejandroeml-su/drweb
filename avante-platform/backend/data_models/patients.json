@@ -1,0 +1,105 @@
+{
+    "title": "patients",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "user_id": {
+            "type": "string",
+            "description": "User ID"
+        },
+        "expediente": {
+            "type": "string",
+            "description": "Medical record number, nullable"
+        },
+        "nombre": {
+            "type": "string",
+            "description": "First name"
+        },
+        "apellido": {
+            "type": "string",
+            "description": "Last name"
+        },
+        "edad": {
+            "type": "integer",
+            "description": "Age"
+        },
+        "sexo": {
+            "type": "string",
+            "description": "Sex M/F"
+        },
+        "peso": {
+            "type": "string",
+            "description": "Weight in kg"
+        },
+        "talla": {
+            "type": "string",
+            "description": "Height in cm"
+        },
+        "procedimiento": {
+            "type": "string",
+            "description": "Procedure type ID"
+        },
+        "comorbilidades": {
+            "type": "string",
+            "description": "JSON string of comorbidities"
+        },
+        "otros_antecedentes": {
+            "type": "string",
+            "description": "Other medical history"
+        },
+        "asa": {
+            "type": "string",
+            "description": "ASA classification"
+        },
+        "funcional": {
+            "type": "string",
+            "description": "Functional status"
+        },
+        "telefono": {
+            "type": "string",
+            "description": "Phone number"
+        },
+        "email_paciente": {
+            "type": "string",
+            "description": "Patient email"
+        },
+        "medico": {
+            "type": "string",
+            "description": "Doctor name"
+        },
+        "medico_id": {
+            "type": "string",
+            "description": "Doctor ID"
+        },
+        "historia_clinica": {
+            "type": "string",
+            "description": "JSON string of clinical history"
+        },
+        "eoss_metabolico": {
+            "type": "integer",
+            "description": "EOSS metabolic score"
+        },
+        "eoss_mecanico": {
+            "type": "integer",
+            "description": "EOSS mechanical score"
+        },
+        "eoss_psico": {
+            "type": "integer",
+            "description": "EOSS psychosocial score"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+        }
+    },
+    "required": [
+        "id",
+        "user_id",
+        "nombre",
+        "apellido"
+    ]
+}

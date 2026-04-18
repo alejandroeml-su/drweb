@@ -1,0 +1,40 @@
+{
+    "title": "appointments",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "user_id": {
+            "type": "string",
+            "description": "User ID"
+        },
+        "paciente_nombre": {
+            "type": "string",
+            "description": "Patient name"
+        },
+        "fecha": {
+            "type": "string",
+            "description": "Appointment date-time string"
+        },
+        "tipo": {
+            "type": "string",
+            "description": "Appointment type"
+        },
+        "notas": {
+            "type": "string",
+            "description": "Notes"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+        }
+    },
+    "required": [
+        "id",
+        "user_id",
+        "paciente_nombre"
+    ]
+}

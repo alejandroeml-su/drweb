@@ -1,0 +1,65 @@
+2026-04-18 09:30:45,728 - main - INFO - === Logging system initialized ===
+2026-04-18 09:30:45,728 - main - INFO - Log file: logs/app_20260418_093045.log
+2026-04-18 09:30:45,729 - main - INFO - Log level: INFO
+2026-04-18 09:30:45,729 - main - INFO - Timestamp: 20260418_093045
+2026-04-18 09:30:46,789 - main - INFO - Included router: routers.aihub.router
+2026-04-18 09:30:46,852 - main - INFO - Included router: routers.appointments.router
+2026-04-18 09:30:46,868 - main - INFO - Included router: routers.auth.router
+2026-04-18 09:30:46,870 - main - INFO - Included router: routers.health.router
+2026-04-18 09:30:46,947 - main - INFO - Included router: routers.patients.router
+2026-04-18 09:30:46,969 - main - INFO - Included router: routers.settings.router
+2026-04-18 09:30:47,008 - main - INFO - Included router: routers.storage.router
+2026-04-18 09:30:47,049 - main - INFO - Included router: routers.user.router
+2026-04-18 09:30:47,050 - main - INFO - === Application startup initiated ===
+2026-04-18 09:30:47,050 - services.database - INFO - Ignore creating tables
+2026-04-18 09:30:47,051 - services.mock_data - INFO - Ignore initialize data
+2026-04-18 09:30:47,051 - services.auth - INFO - Ignore initialize admin
+2026-04-18 09:30:47,051 - main - INFO - === Application startup completed successfully ===
+2026-04-18 09:30:50,494 - core.config - DEBUG - Read dynamic attribute jwt_secret_key from environment variable JWT_SECRET_KEY
+2026-04-18 09:30:50,494 - core.config - DEBUG - Read dynamic attribute jwt_algorithm from environment variable JWT_ALGORITHM
+2026-04-18 09:30:50,510 - core.auth - DEBUG - Authentication token validated for user hash: ce91757c
+2026-04-18 09:30:50,728 - core.auth - DEBUG - Authentication token validated for user hash: ce91757c
+2026-04-18 09:30:50,729 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-04-18 09:30:50,729 - core.database - WARNING - Database session maker not available, attempting lazy initialization...
+2026-04-18 09:30:50,729 - core.database - WARNING - Database not initialized, attempting lazy initialization...
+2026-04-18 09:30:50,730 - core.database - INFO - Starting database initialization...
+2026-04-18 09:30:50,730 - core.config - DEBUG - Read dynamic attribute database_url from environment variable DATABASE_URL
+2026-04-18 09:30:50,730 - core.database - INFO - Normalizing database URL for async compatibility...
+2026-04-18 09:30:50,732 - core.database - INFO - Creating async database engine...
+2026-04-18 09:30:50,732 - core.database - INFO - Using QueuePool with connection pooling for non-Lambda environment
+2026-04-18 09:30:50,800 - core.database - INFO - Database engine created successfully
+2026-04-18 09:30:50,800 - core.database - INFO - Creating async session maker...
+2026-04-18 09:30:50,801 - core.database - INFO - Async session maker created successfully
+2026-04-18 09:30:50,801 - core.database - INFO - Database connection initialized successfully
+2026-04-18 09:30:50,802 - core.database - DEBUG - [DB_OP] Starting create_tables
+2026-04-18 09:30:50,802 - core.database - INFO - 🔧 Starting table creation...
+2026-04-18 09:30:50,811 - core.auth - DEBUG - Authentication token validated for user hash: ce91757c
+2026-04-18 09:30:50,812 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-04-18 09:30:50,812 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0003s
+2026-04-18 09:30:50,813 - routers.appointments - DEBUG - Querying appointmentss: query={}, sort=fecha, skip=0, limit=500, fields=None
+2026-04-18 09:30:52,201 - routers.appointments - DEBUG - Found 0 appointmentss
+2026-04-18 09:30:52,202 - core.database - DEBUG - [DB_OP] Database session cleanup after 1.3900s
+2026-04-18 09:30:52,268 - core.database - INFO - Tables initialized successfully
+2026-04-18 09:30:52,269 - core.database - DEBUG - [DB_OP] Create tables completed in 1.4668s
+2026-04-18 09:30:52,332 - core.database - INFO - Lazy database initialization completed successfully
+2026-04-18 09:30:52,333 - core.database - DEBUG - [DB_OP] Database session created successfully in 1.6039s
+2026-04-18 09:30:52,334 - routers.patients - DEBUG - Querying patientss: query={}, sort=-created_at, skip=0, limit=500, fields=None
+2026-04-18 09:30:52,908 - routers.patients - DEBUG - Found 0 patientss
+2026-04-18 09:30:52,909 - core.database - DEBUG - [DB_OP] Database session cleanup after 2.1799s
+2026-04-18 09:33:57,465 - core.auth - DEBUG - Authentication token validated for user hash: ce91757c
+2026-04-18 09:33:57,886 - core.auth - DEBUG - Authentication token validated for user hash: ce91757c
+2026-04-18 09:33:57,887 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-04-18 09:33:57,887 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0002s
+2026-04-18 09:33:57,887 - routers.appointments - DEBUG - Querying appointmentss: query={}, sort=fecha, skip=0, limit=500, fields=None
+2026-04-18 09:33:57,889 - core.auth - DEBUG - Authentication token validated for user hash: ce91757c
+2026-04-18 09:33:57,889 - core.database - DEBUG - [DB_OP] Starting get_db session creation
+2026-04-18 09:33:57,889 - core.database - DEBUG - [DB_OP] Database session created successfully in 0.0001s
+2026-04-18 09:33:57,889 - routers.patients - DEBUG - Querying patientss: query={}, sort=-created_at, skip=0, limit=500, fields=None
+2026-04-18 09:33:58,269 - routers.patients - DEBUG - Found 0 patientss
+2026-04-18 09:33:58,270 - core.database - DEBUG - [DB_OP] Database session cleanup after 0.3804s
+2026-04-18 09:33:58,462 - routers.appointments - DEBUG - Found 0 appointmentss
+2026-04-18 09:33:58,462 - core.database - DEBUG - [DB_OP] Database session cleanup after 0.5756s
+2026-04-18 09:36:48,006 - services.database - DEBUG - [DB_OP] Starting database close
+2026-04-18 09:36:48,140 - core.database - INFO - Database connection closed and engine disposed
+2026-04-18 09:36:48,140 - services.database - INFO - Database connections closed
+2026-04-18 09:36:48,140 - services.database - DEBUG - [DB_OP] Database close completed in 0.1344s
