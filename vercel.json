@@ -1,7 +1,6 @@
 {
-  "buildCommand": "cd proyectos/avante && npm install && npm run build",
+  "buildCommand": "npm run vercel-build",
   "outputDirectory": "proyectos/avante/dist",
-  "installCommand": "cd proyectos/avante && npm install",
   "framework": "vite",
   "routes": [
     { "handle": "filesystem" },
