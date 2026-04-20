@@ -122,30 +122,57 @@ export function leerArchivoDataURL(file, maxBytes = 8 * 1024 * 1024) {
   });
 }
 
-// --- Storage helpers (localStorage + JSON) ---
+// --- Storage helpers (Supabase + localStorage fallback) ---
+
+import { supabase } from '../lib/supabase';
 
 export async function storageGet(key) {
   try {
-    if (window.storage && typeof window.storage.get === 'function') {
-      const r = await window.storage.get(key);
-      if (r && r.value !== undefined && r.value !== null) {
-        try { return JSON.parse(r.value); } catch { return r.value; }
-      }
-      return null;
+    // 1. Intentar obtener de Supabase
+    const { data, error } = await supabase
+      .from('avante_store')
+      .select('key_value')
+      .eq('key_name', key)
+      .single();
+
+    if (!error && data) {
+      // Guardar también en localStorage como backup/cache
+      localStorage.setItem(key, JSON.stringify(data.key_value));
+      return data.key_value;
     }
+  } catch (err) {
+    console.warn(`Supabase get error for ${key}:`, err);
+  }
+
+  // 2. Fallback a localStorage si Supabase falla o está vacío
+  try {
     const v = localStorage.getItem(key);
     return v ? (() => { try { return JSON.parse(v); } catch { return v; } })() : null;
-  } catch { return null; }
+  } catch { 
+    return null; 
+  }
 }
 
 export async function storageSet(key, value) {
+  // Primero guardamos en localStorage para que la UI responda rápido (Optimistic UI)
   const s = typeof value === 'string' ? value : JSON.stringify(value);
+  try { localStorage.setItem(key, s); } catch {}
+
+  // Luego sincronizamos con Supabase en background
   try {
-    if (window.storage && typeof window.storage.set === 'function') {
-      return await window.storage.set(key, s);
-    }
-    localStorage.setItem(key, s);
-  } catch {}
+    const jsonValue = typeof value === 'string' ? JSON.parse(value) : value;
+    const { error } = await supabase
+      .from('avante_store')
+      .upsert({ 
+        key_name: key, 
+        key_value: jsonValue,
+        updated_at: new Date().toISOString()
+      }, { onConflict: 'key_name' });
+      
+    if (error) console.error(`Supabase sync error for ${key}:`, error);
+  } catch (err) {
+    console.warn(`Could not sync ${key} to Supabase:`, err);
+  }
 }
 
 // --- Formato ---
