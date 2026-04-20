@@ -127,6 +127,9 @@ export function leerArchivoDataURL(file, maxBytes = 8 * 1024 * 1024) {
 import { supabase } from '../lib/supabase';
 
 export async function storageGet(key) {
+  let supabaseData = null;
+  let supabaseError = null;
+
   try {
     // 1. Intentar obtener de Supabase
     const { data, error } = await supabase
@@ -134,6 +137,9 @@ export async function storageGet(key) {
       .select('key_value')
       .eq('key_name', key)
       .single();
+
+    supabaseData = data;
+    supabaseError = error;
 
     if (!error && data) {
       // Guardar también en localStorage como backup/cache
@@ -144,13 +150,33 @@ export async function storageGet(key) {
     console.warn(`Supabase get error for ${key}:`, err);
   }
 
-  // 2. Fallback a localStorage si Supabase falla o está vacío
+  // 2. Fallback: Supabase falló o está vacío. Intentar leer localStorage.
+  let localValue = null;
   try {
     const v = localStorage.getItem(key);
-    return v ? (() => { try { return JSON.parse(v); } catch { return v; } })() : null;
-  } catch { 
-    return null; 
+    if (v) localValue = (() => { try { return JSON.parse(v); } catch { return v; } })();
+  } catch { }
+
+  // 3. Auto-Migración: Si encontramos datos locales pero NO en Supabase (ej. primer uso de la BD nueva)
+  // Subimos automáticamente para popular la base de datos con los datos existentes
+  if (localValue !== null && supabaseError && supabaseError.code === 'PGRST116') {
+    // PGRST116: "JSON object requested, multiple (or no) rows returned" (No record found)
+    console.log(`Auto-migrating local data for [${key}] to Supabase...`);
+    storageSet(key, localValue); // Llama al guardado (que escribe en local y Supabase)
+    return localValue;
   }
+
+  // 4. Si no hay nada ni local ni remoto, retornamos el default (null o pre-popular un array para ciertos keys)
+  if (localValue === null) {
+      const arrayKeys = ['avante_pacientes', 'avante_citas', 'avante_medicos', 'avante_seguimientos', 'avante_banner_items'];
+      if (arrayKeys.includes(key)) {
+          // Si son catálogos o mantenimientos, y no existen, inicializarlos en Supabase vacíos para que ya existan.
+          storageSet(key, []);
+          return [];
+      }
+  }
+
+  return localValue;
 }
 
 export async function storageSet(key, value) {
