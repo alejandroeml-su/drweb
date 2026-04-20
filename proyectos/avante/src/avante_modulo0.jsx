@@ -9,6 +9,13 @@ const C = { navy: '#0A1F44', teal: '#1A8B9D', gold: '#C9A961', cream: '#FAF7F2' 
 const BANNER_KEY = 'avante_banner_items';
 const MAX_BANNER = 10;
 
+// Banners institucionales por defecto (se muestran cuando no hay imágenes del usuario)
+const DEFAULT_BANNERS = [
+  { id: 'default-1', tipo: 'imagen', src: '/banners/banner1.png', esDefault: true },
+  { id: 'default-2', tipo: 'imagen', src: '/banners/banner2.png', esDefault: true },
+  { id: 'default-3', tipo: 'imagen', src: '/banners/banner3.png', esDefault: true }
+];
+
 export default function AvanteModulo0() {
   const { lang, setLang, t } = useLang();
   const [banner, setBanner] = useState([]);
@@ -23,16 +30,20 @@ export default function AvanteModulo0() {
   useEffect(() => {
     (async () => {
       const v = await storageGet(BANNER_KEY);
-      if (Array.isArray(v)) setBanner(v);
+      if (Array.isArray(v) && v.length > 0) setBanner(v);
       setCargando(false);
     })();
   }, []);
 
+  // Items visibles: los del usuario si existen, si no los por defecto
+  const itemsVisibles = banner.length > 0 ? banner : DEFAULT_BANNERS;
+  const usandoDefaults = banner.length === 0;
+
   useEffect(() => {
-    if (banner.length < 2) return;
-    const iv = setInterval(() => setIdx(i => (i + 1) % banner.length), 6000);
+    if (itemsVisibles.length < 2) return;
+    const iv = setInterval(() => setIdx(i => (i + 1) % itemsVisibles.length), 6000);
     return () => clearInterval(iv);
-  }, [banner.length]);
+  }, [itemsVisibles.length]);
 
   const subirArchivos = async (files) => {
     const nuevos = [];
@@ -60,6 +71,7 @@ export default function AvanteModulo0() {
     if (nuevos.length) {
       const lista = [...banner, ...nuevos];
       setBanner(lista);
+      setIdx(0);
       await storageSet(BANNER_KEY, lista);
     }
   };
@@ -79,7 +91,7 @@ export default function AvanteModulo0() {
   const getTitulo = (o) => (lang === 'en' ? o.tituloEn : o.tituloEs) || o.tituloEs;
   const getResumen = (o) => (lang === 'en' ? o.resumenEn : o.resumenEs) || o.resumenEs;
 
-  const current = banner[idx];
+  const current = itemsVisibles[idx % itemsVisibles.length];
 
   if (cargando) return <div className="p-8 text-center">...</div>;
 
@@ -131,52 +143,48 @@ export default function AvanteModulo0() {
           <p className="text-xs text-gray-500 mb-3">{t('inicio.bannerHint')}</p>
 
           <div className="relative rounded-lg overflow-hidden" style={{ minHeight: 360, background: C.cream }}>
-            {banner.length === 0 ? (
-              <div className="flex flex-col items-center justify-center text-gray-500 p-12" style={{ minHeight: 360 }}>
-                <ImageIcon size={48} style={{ color: C.gold, opacity: 0.5 }} />
-                <p className="mt-3 text-sm">{t('inicio.bannerUpload')}</p>
-              </div>
-            ) : (
+            {(() => {
+              const imgSrc = current?.dataUrl || current?.src;
+              return current?.tipo === 'video' ? (
+                <video key={current.id} src={current.dataUrl || current.src} autoPlay loop muted playsInline
+                  className="w-full h-full object-cover" style={{ minHeight: 360 }} />
+              ) : (
+                <img key={current?.id} src={imgSrc} alt="" className="w-full h-full object-cover" style={{ minHeight: 360 }} />
+              );
+            })()}
+            {itemsVisibles.length > 1 && (
               <>
-                {current?.tipo === 'video' ? (
-                  <video key={current.id} src={current.dataUrl} autoPlay loop muted playsInline
-                    className="w-full h-full object-cover" style={{ minHeight: 360 }} />
-                ) : (
-                  <img key={current.id} src={current.dataUrl} alt="" className="w-full h-full object-cover" style={{ minHeight: 360 }} />
-                )}
-                {banner.length > 1 && (
-                  <>
-                    <button onClick={() => setIdx((idx - 1 + banner.length) % banner.length)}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-white"
-                      style={{ background: 'rgba(10,31,68,0.7)' }}>
-                      <ChevronLeft size={18} />
-                    </button>
-                    <button onClick={() => setIdx((idx + 1) % banner.length)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-white"
-                      style={{ background: 'rgba(10,31,68,0.7)' }}>
-                      <ChevronRight size={18} />
-                    </button>
-                    <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
-                      {banner.map((_, i) => (
-                        <button key={i} onClick={() => setIdx(i)}
-                          className="w-2 h-2 rounded-full"
-                          style={{ background: i === idx ? C.gold : 'rgba(255,255,255,0.6)' }} />
-                      ))}
-                    </div>
-                  </>
-                )}
-                <button onClick={() => eliminarItem(current.id)}
-                  className="absolute top-2 right-2 p-2 rounded-full text-white"
-                  style={{ background: 'rgba(192,57,43,0.85)' }} title={t('comun.eliminar')}>
-                  <Trash2 size={14} />
+                <button onClick={() => setIdx((idx - 1 + itemsVisibles.length) % itemsVisibles.length)}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-white"
+                  style={{ background: 'rgba(10,31,68,0.7)' }}>
+                  <ChevronLeft size={18} />
                 </button>
+                <button onClick={() => setIdx((idx + 1) % itemsVisibles.length)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full text-white"
+                  style={{ background: 'rgba(10,31,68,0.7)' }}>
+                  <ChevronRight size={18} />
+                </button>
+                <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+                  {itemsVisibles.map((_, i) => (
+                    <button key={i} onClick={() => setIdx(i)}
+                      className="w-2 h-2 rounded-full"
+                      style={{ background: i === idx ? C.gold : 'rgba(255,255,255,0.6)' }} />
+                  ))}
+                </div>
               </>
+            )}
+            {!usandoDefaults && current && (
+              <button onClick={() => eliminarItem(current.id)}
+                className="absolute top-2 right-2 p-2 rounded-full text-white"
+                style={{ background: 'rgba(192,57,43,0.85)' }} title={t('comun.eliminar')}>
+                <Trash2 size={14} />
+              </button>
             )}
           </div>
 
-          {banner.length > 0 && (
+          {itemsVisibles.length > 0 && (
             <div className="flex gap-2 mt-3 overflow-x-auto">
-              {banner.map((b, i) => (
+              {itemsVisibles.map((b, i) => (
                 <button key={b.id} onClick={() => setIdx(i)}
                   className="relative flex-shrink-0 w-20 h-14 rounded overflow-hidden border-2"
                   style={{ borderColor: i === idx ? C.gold : 'transparent' }}>
@@ -185,7 +193,7 @@ export default function AvanteModulo0() {
                       <Play size={18} color="white" />
                     </div>
                   ) : (
-                    <img src={b.dataUrl} alt="" className="w-full h-full object-cover" />
+                    <img src={b.dataUrl || b.src} alt="" className="w-full h-full object-cover" />
                   )}
                 </button>
               ))}
