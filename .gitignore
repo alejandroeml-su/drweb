@@ -1,19 +1,5 @@
-# Large archives
-*.tar
-*.tar.tar
-*.tar.gz
-*.zip
-
-# OS files
+node_modules
+dist
 .DS_Store
-Thumbs.db
-
-# Dependencies
-node_modules/
-
-# Build output
-dist/
-
-# IDE
-.vscode/
-.idea/
+*.local
+.vite
