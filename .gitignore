@@ -1,9 +1,19 @@
-node_modules/
-dist/
-.env
-.env.local
+# Large archives
+*.tar
+*.tar.tar
 *.tar.gz
-.mgx/
-__pycache__/
-*.pyc
-.vercel/
+*.zip
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# IDE
+.vscode/
+.idea/

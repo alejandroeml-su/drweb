@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd proyectos/avante && npm install && npm run build",
+  "outputDirectory": "proyectos/avante/dist",
+  "installCommand": "cd proyectos/avante && npm install",
+  "framework": "vite",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
